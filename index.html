@@ -84,9 +84,7 @@
                 <input name="model" required placeholder="Model*" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
 
                 <select name="rok_produkcji" required class="rounded-xl border border-neutral-300 px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-emerald-500" id="rok"></select>
-                <script>
-                  setTimeout(()=>{const sel=document.getElementById('rok'); if(sel){ sel.innerHTML='<option value="" disabled selected>Rok*</option>'; for(let y=2025;y>=1980;y--){ const o=document.createElement('option'); o.value=y; o.textContent=y; sel.appendChild(o);} }},0);
-                </script>
+                
 
                 <select name="paliwo" class="rounded-xl border border-neutral-300 px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-emerald-500">
                   <option value="" disabled selected>Paliwo</option>
@@ -145,5 +143,58 @@
     </footer>
 
     <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("#contact-form");
+
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const button = form.querySelector("button[type=submit], input[type=submit]");
+      const originalText = button ? button.textContent || button.value : null;
+      if (button) {
+        if (button.textContent) button.textContent = "Wysyłanie...";
+        if (button.value) button.value = "Wysyłanie...";
+      }
+
+      try {
+        const res = await fetch("/.netlify/functions/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          alert("Zgłoszenie wysłane! Skontaktujemy się wkrótce.");
+          form.reset();
+        } else {
+          alert("Błąd wysyłania. Spróbuj ponownie.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Błąd sieci. Spróbuj ponownie.");
+      } finally {
+        if (button && originalText) {
+          if (button.textContent) button.textContent = originalText;
+          if (button.value) button.value = originalText;
+        }
+      }
+    });
+
+    // Заполнение SELECT "rok_produkcji"
+    const yearSelect = document.querySelector("select[name='rok_produkcji']");
+    if (yearSelect) {
+      yearSelect.innerHTML = '<option value="" disabled selected>Rok*</option>';
+      for (let y = 2025; y >= 1950; y--) {
+        yearSelect.innerHTML += <option value="${y}">${y}</option>;
+      }
+    }
+  });
+</script>
   </body>
 </html>
