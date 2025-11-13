@@ -1,8 +1,47 @@
 // netlify/functions/send.js
 
+const https = require("https");
+
+function sendTelegramMessage(token, chatId, text) {
+  return new Promise((resolve, reject) => {
+    const postData = JSON.stringify({
+      chat_id: chatId,
+      text,
+    });
+
+    const options = {
+      hostname: "api.telegram.org",
+      path: /bot${token}/sendMessage,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Length": Buffer.byteLength(postData),
+      },
+    };
+
+    const req = https.request(options, (res) => {
+      let body = "";
+
+      res.on("data", (chunk) => {
+        body += chunk;
+      });
+
+      res.on("end", () => {
+        resolve({ statusCode: res.statusCode, body });
+      });
+    });
+
+    req.on("error", (err) => {
+      reject(err);
+    });
+
+    req.write(postData);
+    req.end();
+  });
+}
+
 exports.handler = async (event, context) => {
   try {
-    // Разрешаем только POST
     if (event.httpMethod !== "POST") {
       return {
         statusCode: 405,
@@ -44,26 +83,14 @@ exports.handler = async (event, context) => {
       (miejscowosc ? Miejscowość: ${miejscowosc}\n : "") +
       (opis ? Dodatkowe info: ${opis}\n : "");
 
-    const url = https://api.telegram.org/bot${token}/sendMessage;
+    const tgRes = await sendTelegramMessage(token, chatId, text);
 
-    const tgRes = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text,
-      }),
-    });
-
-    const tgBody = await tgRes.text();
-
-    if (!tgRes.ok) {
-      // Ошибка от Telegram (неправильный токен/chat_id и т.п.)
+    if (tgRes.statusCode < 200 || tgRes.statusCode >= 300) {
       return {
         statusCode: 500,
         body: JSON.stringify({
           error: "Telegram error",
-          detail: tgBody,
+          detail: tgRes.body,
         }),
       };
     }
