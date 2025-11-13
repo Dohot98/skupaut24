@@ -186,15 +186,18 @@
       }
     });
 
-    // Заполнение SELECT "rok_produkcji"
-    const yearSelect = document.querySelector("select[name='rok_produkcji']");
-    if (yearSelect) {
-      yearSelect.innerHTML = '<option value="" disabled selected>Rok*</option>';
-      for (let y = 2025; y >= 1950; y--) {
-        yearSelect.innerHTML += <option value="${y}">${y}</option>;
-      }
+// Заполнение SELECT "rok_produkcji"
+  const yearSelect = document.getElementById("rok");
+  if (yearSelect) {
+    yearSelect.innerHTML = '<option value="" disabled selected>Rok*</option>';
+    for (let y = 2025; y >= 1950; y--) {
+      const option = document.createElement("option");
+      option.value = y;
+      option.textContent = y;
+      yearSelect.appendChild(option);
     }
-  });
+  }
+});
 </script>
-  </body>
+</body>
 </html>
