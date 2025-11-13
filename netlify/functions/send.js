@@ -1,5 +1,8 @@
-export const handler = async (event) => {
+// netlify/functions/send.js
+
+exports.handler = async (event, context) => {
   try {
+    // Разрешаем только POST
     if (event.httpMethod !== "POST") {
       return {
         statusCode: 405,
@@ -10,12 +13,14 @@ export const handler = async (event) => {
     const data = JSON.parse(event.body || "{}");
 
     const {
-      name,
-      phone,
-      car,
-      year,
-      mileage,
-      message,
+      marka,
+      model,
+      rok_produkcji,
+      paliwo,
+      cena,
+      telefon,
+      miejscowosc,
+      opis,
     } = data;
 
     const token = process.env.TG_TOKEN;
@@ -29,17 +34,19 @@ export const handler = async (event) => {
     }
 
     const text =
-      🚗 Новая заявка Skup Aut 24/7\n\n +
-      (name ? Имя: ${name}\n : "") +
-      (phone ? Телефон: ${phone}\n : "") +
-      (car ? Авто: ${car}\n : "") +
-      (year ? Год: ${year}\n : "") +
-      (mileage ? Пробег: ${mileage}\n : "") +
-      (message ? Комментарий: ${message}\n : "");
+      "🚗 Nowe zgłoszenie Skup Aut 24/7\n\n" +
+      (marka ? Marka: ${marka}\n : "") +
+      (model ? Model: ${model}\n : "") +
+      (rok_produkcji ? Rok: ${rok_produkcji}\n : "") +
+      (paliwo ? Paliwo: ${paliwo}\n : "") +
+      (cena ? Cena oczekiwana: ${cena} PLN\n : "") +
+      (telefon ? Telefon: ${telefon}\n : "") +
+      (miejscowosc ? Miejscowość: ${miejscowosc}\n : "") +
+      (opis ? Dodatkowe info: ${opis}\n : "");
 
     const url = https://api.telegram.org/bot${token}/sendMessage;
 
-    await fetch(url, {
+    const tgRes = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -47,6 +54,19 @@ export const handler = async (event) => {
         text,
       }),
     });
+
+    const tgBody = await tgRes.text();
+
+    if (!tgRes.ok) {
+      // Ошибка от Telegram (неправильный токен/chat_id и т.п.)
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          error: "Telegram error",
+          detail: tgBody,
+        }),
+      };
+    }
 
     return {
       statusCode: 200,
@@ -56,7 +76,10 @@ export const handler = async (event) => {
     console.error(err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Internal Server Error" }),
+      body: JSON.stringify({
+        error: "Internal Server Error",
+        detail: String(err),
+      }),
     };
   }
 };
