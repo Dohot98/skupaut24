@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Skup Aut 24/7 — Warszawa</title>
+    <meta name="description" content="Szybki skup aut w Warszawie i okolicach. Wycena online 24/7, gotówka na miejscu, dojazd tego samego dnia.">
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-neutral-50 text-neutral-900">
+    <header class="sticky top-0 z-20 backdrop-blur bg-white/70 border-b border-neutral-200">
+      <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-8 w-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold">SA</div>
+          <span class="font-semibold">Skup Aut 24/7</span>
+        </div>
+        <a href="tel:+48884765275" class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-semibold bg-emerald-600 text-white shadow-sm hover:shadow-md hover:bg-emerald-700">
+          📞 Zadzwoń: +48 884 765 275
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <section class="relative overflow-hidden">
+        <div class="mx-auto max-w-6xl px-4 py-14 grid md:grid-cols-2 gap-6 items-center">
+          <div>
+            <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">
+              Szybki <span class="text-emerald-600">skup aut</span> w Warszawie i okolicach
+            </h1>
+            <p class="mt-4 text-neutral-600 md:text-lg">
+              Wycena online 24/7 • Gotówka na miejscu (tylko gotówka) • Dojazd do klienta tego samego dnia.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#formularz" class="rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:shadow-lg">🚗 Wyceń teraz</a>
+              <a href="tel:+48884765275" class="rounded-2xl px-5 py-3 bg-white border border-emerald-300 text-emerald-700 font-semibold hover:bg-emerald-50">📞 Zadzwoń teraz</a>
+            </div>
+            <ul class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+              <li class="rounded-2xl border border-neutral-200 bg-white p-3">✔️ Odbiór spod domu</li>
+              <li class="rounded-2xl border border-neutral-200 bg-white p-3">✔️ Każdy stan i rocznik</li>
+              <li class="rounded-2xl border border-neutral-200 bg-white p-3">✔️ Umowa i formalności</li>
+            </ul>
+          </div>
+          <div class="relative">
+            <img src="hero.jpg" alt="Skup aut – flota" class="aspect-[16/10] w-full rounded-3xl object-cover shadow" />
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-4 py-8">
+        <div class="grid md:grid-cols-4 gap-4">
+          <div class="rounded-2xl border border-neutral-200 bg-white p-5">
+            <p class="text-sm font-semibold">Opinie klientów</p>
+            <p class="text-2xl font-extrabold mt-1">5/5 ⭐️⭐️⭐️⭐️⭐️</p>
+            <p class="text-sm text-neutral-600 mt-1">Na podstawie 250+ realizacji</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 bg-white p-5">
+            <p class="text-sm font-semibold">Legalnie i bezpiecznie</p>
+            <ul class="text-sm text-neutral-700 mt-1 list-disc list-inside">
+              <li>Umowa kupna‑sprzedaży</li>
+              <li>Paragon/faktura</li>
+              <li>RODO i ochrona danych</li>
+            </ul>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 bg-white p-5">
+            <p class="text-sm font-semibold">Szybka decyzja</p>
+            <p class="text-sm text-neutral-600">Wycena w 15 min • Odbiór tego samego dnia</p>
+          </div>
+          <div class="rounded-2xl border border-neutral-200 bg-white p-5">
+            <p class="text-sm font-semibold">Obsługujemy</p>
+            <p class="text-sm text-neutral-600">Rok 1980–2025 • sprawne / uszkodzone • osobowe / dostawcze</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="formularz" class="mx-auto max-w-6xl px-4 py-10">
+        <div class="grid md:grid-cols-5 gap-6">
+          <div class="md:col-span-3">
+            <div class="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
+              <h2 class="text-2xl font-bold">Zgłoszenie pojazdu</h2>
+              <p class="mt-1 text-neutral-600 text-sm">Uzupełnij krótki formularz – oddzwonimy w 15 minut.</p>
+
+              <form class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3" action="#" onsubmit="event.preventDefault(); alert('Podgląd z obrazem — TG подключим по запросу.');">
+                <input name="marka" required placeholder="Marka*" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input name="model" required placeholder="Model*" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
+
+                <select name="rok_produkcji" required class="rounded-xl border border-neutral-300 px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-emerald-500" id="rok"></select>
+                <script>
+                  setTimeout(()=>{const sel=document.getElementById('rok'); if(sel){ sel.innerHTML='<option value="" disabled selected>Rok*</option>'; for(let y=2025;y>=1980;y--){ const o=document.createElement('option'); o.value=y; o.textContent=y; sel.appendChild(o);} }},0);
+                </script>
+
+                <select name="paliwo" class="rounded-xl border border-neutral-300 px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-emerald-500">
+                  <option value="" disabled selected>Paliwo</option>
+                  <option>Benzyna</option>
+                  <option>Benzyna + LPG</option>
+                  <option>Benzyna + CNG</option>
+                  <option>Diesel</option>
+                  <option>Elektryczny</option>
+                  <option>Hybryda</option>
+                </select>
+
+                <input name="cena" required placeholder="Cena oczekiwana (PLN)*" inputmode="numeric" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
+                <input name="telefon" required placeholder="Telefon*" type="tel" pattern="^[+]?[0-9\s-]{7,}$" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
+
+                <input name="miejscowosc" placeholder="Miejscowość" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500 sm:col-span-2" />
+
+                <textarea name="opis" placeholder="Dodatkowe informacje" class="sm:col-span-2 rounded-xl border border-neutral-300 px-3 py-2 h-24 outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+
+                <label class="sm:col-span-2 text-xs text-neutral-600 inline-flex items-start gap-2">
+                  <input type="checkbox" required class="mt-0.5" />
+                  <span>Wyrażam zgodę на kontakt телефонiczny w sprawie wyceny pojazdu zgodnie z Polityką Prywatności.</span>
+                </label>
+
+                <button type="submit" class="sm:col-span-2 rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:shadow-md">Wyślij zgłoszenie</button>
+              </form>
+            </div>
+          </div>
+
+          <aside class="md:col-span-2 space-y-4">
+            <div class="rounded-3xl border border-emerald-200 bg-emerald-50 p-6 shadow-sm">
+              <p class="text-sm font-semibold text-emerald-800">Kontakt</p>
+              <div class="mt-2 space-y-1 text-sm">
+                <p>Telefon: <a class="underline text-emerald-700 font-semibold" href="tel:+48884765275">+48 884 765 275</a></p>
+                <p>WhatsApp: <a class="underline" href="https://wa.me/48884765275" target="_blank" rel="noreferrer noopener">wa.me/48884765275</a></p>
+                <p>Telegram: <a class="underline" href="https://t.me/twoj_telegram" target="_blank" rel="noreferrer noopener">t.me/twoj_telegram</a></p>
+                <p>E-mail: <a class="underline" href="mailto:kontakt@skupaut.pl">kontakt@skupaut.pl</a></p>
+                <a href="tel:+48884765275" class="mt-3 inline-flex items-center justify-center w-full rounded-2xl px-4 py-3 bg-emerald-600 text-white font-semibold shadow hover:bg-emerald-700">📞 Zadzwoń</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-neutral-200 mt-10">
+      <div class="mx-auto max-w-6xl px-4 py-8 grid md:grid-cols-3 gap-4 text-sm text-neutral-600">
+        <div>
+          <p class="font-semibold text-neutral-800">Skup Aut 24/7 — Warszawa</p>
+          <p>© <span id="year"></span> Wszystkie prawa zastrzeżone.</p>
+        </div>
+        <div></div>
+        <div class="md:text-right">
+          <a href="tel:+48884765275" class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-emerald-600 text-white font-semibold shadow hover:bg-emerald-700">📞 Zadzwoń</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  </body>
+</html>
