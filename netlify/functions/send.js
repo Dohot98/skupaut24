@@ -2,16 +2,17 @@
 
 const https = require("https");
 
-function sendTelegramMessage(token, chatId, text) {
+// Функция отправки сообщения в Telegram
+function sendTelegramMessage(text) {
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({
-      chat_id: chatId,
+      chat_id: process.env.TG_CHAT_ID, // берем из ENV на Netlify
       text,
     });
 
     const options = {
       hostname: "api.telegram.org",
-      path: /bot${token}/sendMessage,
+      path: /bot${process.env.TG_TOKEN}/sendMessage,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,14 +21,23 @@ function sendTelegramMessage(token, chatId, text) {
     };
 
     const req = https.request(options, (res) => {
-      let body = "";
+      let data = "";
 
       res.on("data", (chunk) => {
-        body += chunk;
+        data += chunk;
       });
 
       res.on("end", () => {
-        resolve({ statusCode: res.statusCode, body });
+        try {
+          const json = JSON.parse(data);
+          if (!json.ok) {
+            console.error("Telegram error:", json);
+            return reject(new Error(json.description || "Telegram error"));
+          }
+          resolve(json);
+        } catch (err) {
+          reject(err);
+        }
       });
     });
 
@@ -40,73 +50,40 @@ function sendTelegramMessage(token, chatId, text) {
   });
 }
 
-exports.handler = async (event, context) => {
+// Главный handler Netlify-функции
+exports.handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return {
+      statusCode: 405,
+      body: "Method Not Allowed",
+    };
+  }
+
   try {
-    if (event.httpMethod !== "POST") {
-      return {
-        statusCode: 405,
-        body: JSON.stringify({ error: "Method Not Allowed" }),
-      };
-    }
+    const body = JSON.parse(event.body || "{}");
 
-    const data = JSON.parse(event.body || "{}");
-
-    const {
-      marka,
-      model,
-      rok_produkcji,
-      paliwo,
-      cena,
-      telefon,
-      miejscowosc,
-      opis,
-    } = data;
-
-    const token = process.env.TG_TOKEN;
-    const chatId = process.env.TG_CHAT_ID;
-
-    if (!token || !chatId) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: "Bot is not configured" }),
-      };
-    }
+    // здесь подставь реальные поля из твоей формы
+    const { brand, model, year, phone, name } = body;
 
     const text =
-      "🚗 Nowe zgłoszenie Skup Aut 24/7\n\n" +
-      (marka ? Marka: ${marka}\n : "") +
-      (model ? Model: ${model}\n : "") +
-      (rok_produkcji ? Rok: ${rok_produkcji}\n : "") +
-      (paliwo ? Paliwo: ${paliwo}\n : "") +
-      (cena ? Cena oczekiwana: ${cena} PLN\n : "") +
-      (telefon ? Telefon: ${telefon}\n : "") +
-      (miejscowosc ? Miejscowość: ${miejscowosc}\n : "") +
-      (opis ? Dodatkowe info: ${opis}\n : "");
+      Новая заявка с сайта AutoSkup24:\n +
+      Имя: ${name || "-"}\n +
+      Телефон: ${phone || "-"}\n +
+      Марка: ${brand || "-"}\n +
+      Модель: ${model || "-"}\n +
+      Год: ${year || "-"};
 
-    const tgRes = await sendTelegramMessage(token, chatId, text);
-
-    if (tgRes.statusCode < 200 || tgRes.statusCode >= 300) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({
-          error: "Telegram error",
-          detail: tgRes.body,
-        }),
-      };
-    }
+    await sendTelegramMessage(text);
 
     return {
       statusCode: 200,
       body: JSON.stringify({ ok: true }),
     };
   } catch (err) {
-    console.error(err);
+    console.error("Function error:", err);
     return {
       statusCode: 500,
-      body: JSON.stringify({
-        error: "Internal Server Error",
-        detail: String(err),
-      }),
+      body: JSON.stringify({ ok: false, error: err.message }),
     };
   }
 };
