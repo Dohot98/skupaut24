@@ -1,12 +1,10 @@
-// netlify/functions/send.js
-
 const https = require("https");
 
-// Функция отправки сообщения в Telegram
+// функция отправки в Telegram
 function sendTelegramMessage(text) {
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({
-      chat_id: process.env.TG_CHAT_ID, // берем из ENV на Netlify
+      chat_id: process.env.TG_CHAT_ID,
       text,
     });
 
@@ -30,10 +28,7 @@ function sendTelegramMessage(text) {
       res.on("end", () => {
         try {
           const json = JSON.parse(data);
-          if (!json.ok) {
-            console.error("Telegram error:", json);
-            return reject(new Error(json.description || "Telegram error"));
-          }
+          if (!json.ok) return reject(new Error(json.description));
           resolve(json);
         } catch (err) {
           reject(err);
@@ -41,16 +36,14 @@ function sendTelegramMessage(text) {
       });
     });
 
-    req.on("error", (err) => {
-      reject(err);
-    });
+    req.on("error", (err) => reject(err));
 
     req.write(postData);
     req.end();
   });
 }
 
-// Главный handler Netlify-функции
+// основной handler, КОТОРЫЙ ОБРАБАТЫВАЕТ ФОРМУ
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
@@ -61,12 +54,10 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body || "{}");
-
-    // здесь подставь реальные поля из твоей формы
     const { brand, model, year, phone, name } = body;
 
     const text =
-      Новая заявка с сайта AutoSkup24:\n +
+      Новая заявка с сайта AutoSkup24:\n\n +
       Имя: ${name || "-"}\n +
       Телефон: ${phone || "-"}\n +
       Марка: ${brand || "-"}\n +
