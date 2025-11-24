@@ -7,18 +7,16 @@ exports.handler = async (event) => {
   }
 
   try {
-    const body = JSON.parse(event.body || "{}");
+    // FormData НЕ приходит JSON-ом — это обычная строка вида:
+    // "marka=vgu&model=bhgb&cena=123&telefon=111222333&miejscowosc=Krakow"
+    const params = new URLSearchParams(event.body);
 
-    // Забираем данные так, как называется в HTML
-    const {
-      marka,
-      model,
-      cena,
-      telefon,
-      miejscowosc
-    } = body;
+    const marka = params.get("marka");
+    const model = params.get("model");
+    const cena = params.get("cena");
+    const telefon = params.get("telefon");
+    const miejscowosc = params.get("miejscowosc");
 
-    // Формируем текст для Telegram
     const text = `
 🚗 *Nowe zgłoszenie AutoSkup24:*
 
