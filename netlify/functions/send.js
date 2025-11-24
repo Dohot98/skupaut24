@@ -10,7 +10,7 @@ function sendTelegramMessage(text) {
 
     const options = {
       hostname: "api.telegram.org",
-      path: `/bot${process.env.TELEGRAM_TOKEN}/sendMessage,
+      path: `/bot${process.env.TELEGRAM_TOKEN}/sendMessage`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
