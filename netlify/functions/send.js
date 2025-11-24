@@ -1,6 +1,6 @@
 const https = require("https");
 
-// функция отправки в Telegram
+// Функция отправки в Telegram
 function sendTelegramMessage(text) {
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({
@@ -43,7 +43,7 @@ function sendTelegramMessage(text) {
   });
 }
 
-// основной handler, КОТОРЫЙ ОБРАБАТЫВАЕТ ФОРМУ
+// основной handler, который обрабатывает форму
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
@@ -58,11 +58,11 @@ exports.handler = async (event) => {
 
     const text =
       Новая заявка с сайта AutoSkup24:\n\n +
-      Имя: ${name || "-"}\n +
-      Телефон: ${phone || "-"}\n +
-      Марка: ${brand || "-"}\n +
-      Модель: ${model || "-"}\n +
-      Год: ${year || "-"};
+      Имя: ${name || "--"}\n +
+      Телефон: ${phone || "--"}\n +
+      Марка: ${brand || "--"}\n +
+      Модель: ${model || "--"}\n +
+      Год: ${year || "--"};
 
     await sendTelegramMessage(text);
 
