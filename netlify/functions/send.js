@@ -1,16 +1,17 @@
 const https = require("https");
 
-// Функция отправки в Telegram
+// функция отправки сообщения в Telegram
 function sendTelegramMessage(text) {
   return new Promise((resolve, reject) => {
     const postData = JSON.stringify({
-      chat_id: process.env.TG_CHAT_ID,
+      chat_id: process.env.TELEGRAM_CHAT_ID,
       text,
+      parse_mode: "Markdown",
     });
 
     const options = {
       hostname: "api.telegram.org",
-      path: /bot${process.env.TG_TOKEN}/sendMessage,
+      path: `/bot${process.env.TELEGRAM_TOKEN}/sendMessage`,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,11 +21,7 @@ function sendTelegramMessage(text) {
 
     const req = https.request(options, (res) => {
       let data = "";
-
-      res.on("data", (chunk) => {
-        data += chunk;
-      });
-
+      res.on("data", (chunk) => (data += chunk));
       res.on("end", () => {
         try {
           const json = JSON.parse(data);
@@ -37,13 +34,12 @@ function sendTelegramMessage(text) {
     });
 
     req.on("error", (err) => reject(err));
-
     req.write(postData);
     req.end();
   });
 }
 
-// основной handler, который обрабатывает форму
+// основной обработчик Netlify
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return {
@@ -56,13 +52,12 @@ exports.handler = async (event) => {
     const body = JSON.parse(event.body || "{}");
     const { brand, model, year, phone, name } = body;
 
-    const text =
-      Новая заявка с сайта AutoSkup24:\n\n +
-      Имя: ${name || "--"}\n +
-      Телефон: ${phone || "--"}\n +
-      Марка: ${brand || "--"}\n +
-      Модель: ${model || "--"}\n +
-      Год: ${year || "--"};
+    const text = `🚗 *Nowe zgłoszenie AutoSkup24:*\n
+*Imię:* ${name || "--"}\n
+*Telefon:* ${phone || "--"}\n
+*Marka:* ${brand || "--"}\n
+*Model:* ${model || "--"}\n
+*Rok:* ${year || "--"}`;
 
     await sendTelegramMessage(text);
 
