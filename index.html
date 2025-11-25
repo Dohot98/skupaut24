@@ -80,36 +80,36 @@
               <p class="mt-1 text-neutral-600 text-sm">Uzupełnij krótki formularz – oddzwonimy w 15 minut.</p>
 
               <form class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3" id="contact-form">
-                <input name="marka" required placeholder="Marka*" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
-                <input name="model" required placeholder="Model*" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
+  <input name="brand" required placeholder="Marka*" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
+  <input name="model" required placeholder="Model*" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
 
-                <select name="rok_produkcji" required class="rounded-xl border border-neutral-300 px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-emerald-500" id="rok"></select>
-                
+  <select name="year" required class="rounded-xl border border-neutral-300 px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-emerald-500" id="rok"></select>
 
-                <select name="paliwo" class="rounded-xl border border-neutral-300 px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-emerald-500">
-                  <option value="" disabled selected>Paliwo</option>
-                  <option>Benzyna</option>
-                  <option>Benzyna + LPG</option>
-                  <option>Benzyna + CNG</option>
-                  <option>Diesel</option>
-                  <option>Elektryczny</option>
-                  <option>Hybryda</option>
-                </select>
+  <select name="fuel" class="rounded-xl border border-neutral-300 px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-emerald-500">
+    <option value="" disabled selected>Paliwo</option>
+    <option>Benzyna</option>
+    <option>Benzyna + LPG</option>
+    <option>Benzyna + CNG</option>
+    <option>Diesel</option>
+    <option>Elektryczny</option>
+    <option>Hybryda</option>
+  </select>
 
-                <input name="cena" required placeholder="Cena oczekiwana (PLN)*" inputmode="numeric" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
-                <input name="telefon" required placeholder="Telefon*" type="tel" pattern="^?[0-9+\-]{7,}" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
+  <input name="price" required placeholder="Cena oczekiwana (PLN)*" inputmode="numeric" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
+  <input name="phone" required placeholder="Telefon*" type="tel" pattern="^[0-9+\-\\s]{7,}$" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500" />
 
-                <input name="miejscowosc" placeholder="Miejscowość" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500 sm:col-span-2" />
+  <input name="location" placeholder="Miejscowość" class="rounded-xl border border-neutral-300 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-500 sm:col-span-2" />
 
-                <textarea name="opis" placeholder="Dodatkowe informacje" class="sm:col-span-2 rounded-xl border border-neutral-300 px-3 py-2 h-24 outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+  <textarea name="description" placeholder="Dodatkowe informacje" class="sm:col-span-2 rounded-xl border border-neutral-300 px-3 py-2 h-24 outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
 
-                <label class="sm:col-span-2 text-xs text-neutral-600 inline-flex items-start gap-2">
-                  <input type="checkbox" required class="mt-0.5" />
-                  <span>Wyrażam zgodę на kontakt телефонiczny w sprawie wyceny pojazdu zgodnie z Polityką Prywatności.</span>
-                </label>
+  <label class="sm:col-span-2 text-xs text-neutral-600 inline-flex items-start gap-2">
+    <input type="checkbox" required class="mt-0.5" />
+    <span>Wyrażam zgodę на kontakt telefoniczny w sprawie wyceny pojazdu zgodnie z Polityką Prywatności.</span>
+  </label>
 
-                <button type="submit" class="sm:col-span-2 rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:shadow-md">Wyślij zgłoszenie</button>
-              </form>
+  <button type="submit" class="sm:col-span-2 rounded-2xl px-5 py-3 bg-emerald-600 text-white font-semibold shadow hover:shadow-md">Wyślij zgłoszenie</button>
+</form>
+
             </div>
           </div>
 
