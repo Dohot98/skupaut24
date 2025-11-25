@@ -45,14 +45,26 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body || "{}");
-    const { brand, model, year, phone, name } = body;
+    const {
+      marka,
+      model,
+      rok_produkcji,
+      paliwo,
+      cena,
+      telefon,
+      miejscowosc,
+      opis,
+    } = body;
 
     const text = `🚗 *Nowe zgłoszenie AutoSkup24:*
-*Imię:* ${name || "--"}
-*Telefon:* ${phone || "--"}
-*Marka:* ${brand || "--"}
-*Model:* ${model || "--"}
-*Rok:* ${year || "--"}`;
+*Marka:* ${marka || "—"}
+*Model:* ${model || "—"}
+*Rok:* ${rok_produkcji || "—"}
+*Paliwo:* ${paliwo || "—"}
+*Cena oczekiwana:* ${cena || "—"} PLN
+*Telefon:* ${telefon || "—"}
+*Miejscowość:* ${miejscowosc || "—"}
+*Dodatkowe informacje:* ${opis || "—"}`;
 
     await sendTelegramMessage(text);
     return { statusCode: 200, body: JSON.stringify({ ok: true }) };
